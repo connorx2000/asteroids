@@ -7,21 +7,29 @@ from shooting import Shot
 
 def main():
     pygame.init()
+    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("Pygame Asteroid Shooter!")
     clock = pygame.time.Clock()
     
     dt = 0
+    score = PLAYER_SCORE
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     bullets = pygame.sprite.Group()
+
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (bullets, updatable, drawable)
+
     active_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT /2)
     active_astroid_field = AsteroidField()
+
+    font = pygame.font.Font(None, 50)
+    #satext_surface = font.render(f"Score: {score}" , True, "WHITE")
 
     while True:
         for event in pygame.event.get():
@@ -29,6 +37,8 @@ def main():
                 return
             
         screen.fill("black")
+        text_surface = font.render(f"Score: {score}" , True, "WHITE")
+        screen.blit(text_surface, (SCREEN_WIDTH - 150, SCREEN_HEIGHT - 50))
         
         dt = clock.tick(60) / 1000
         updatable.update(dt)
@@ -38,8 +48,6 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collision(active_player):
-                distance = asteroid.position.distance_to(active_player.position)
-                print(f"Player collision! Distance: {distance}")
                 raise SystemExit ("Game over!")
             
         for bullet in bullets:
@@ -47,6 +55,7 @@ def main():
                 if bullet.collision(asteroid):
                     bullet.kill()
                     asteroid.split()
+                    score += 1
                 
 
         pygame.display.flip()
