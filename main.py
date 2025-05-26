@@ -4,6 +4,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shooting import Shot
+from explosion import Explosin_anim
 
 def main():
     pygame.init()
@@ -19,19 +20,24 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     bullets = pygame.sprite.Group()
+    explosions = pygame.sprite.Group()
 
+    #Groups
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
+    Explosin_anim.containers = (explosions, updatable, drawable)
     Shot.containers = (bullets, updatable, drawable)
 
     active_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT /2)
     active_astroid_field = AsteroidField()
+
+    #Textures
     heart_full = pygame.image.load("./images/heart_full.png")
     heart_empty = pygame.image.load("./images/heart_empty.png")
 
+    #Fonts
     font = pygame.font.Font(None, 50)
-    #satext_surface = font.render(f"Score: {score}" , True, "WHITE")
 
     while True:
         for event in pygame.event.get():
@@ -65,8 +71,9 @@ def main():
                 elif active_player.player_health == 0:
                     raise SystemExit (f"Game over, you scored {score}!")
                 else:
-                    print(f"Player is immune to dmg for {active_player.player_dmg_cooldown} seconds!") 
-            
+                    #print(f"Player is immune to dmg for {active_player.player_dmg_cooldown} seconds!") 
+                    pass
+
         # Bullet collision system
         for bullet in bullets:
             for asteroid in asteroids:
@@ -74,6 +81,8 @@ def main():
                     bullet.kill()
                     asteroid.split()
                     score += 1
+                    explosions.add(Explosin_anim(asteroid.position[0], asteroid.position[1], asteroid.radius))
+                    
                 
 
         pygame.display.flip()
