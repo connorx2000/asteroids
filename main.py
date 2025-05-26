@@ -27,6 +27,8 @@ def main():
 
     active_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT /2)
     active_astroid_field = AsteroidField()
+    heart_full = pygame.image.load("./images/heart_full.png")
+    heart_empty = pygame.image.load("./images/heart_empty.png")
 
     font = pygame.font.Font(None, 50)
     #satext_surface = font.render(f"Score: {score}" , True, "WHITE")
@@ -46,6 +48,15 @@ def main():
         for sprite in drawable:
             sprite.draw(screen)
 
+        # Draws players hearts
+        for i in range(PLAYER_HEALTH):
+                x = 10 + i * 60
+                if i < active_player.player_health:
+                    screen.blit(heart_full, ( x, SCREEN_HEIGHT - 60))
+                else:
+                    screen.blit(heart_empty, ( x, SCREEN_HEIGHT - 60))
+
+        # Astroid collision system
         for asteroid in asteroids:
             if asteroid.collision(active_player):
                 if active_player.health(1):
@@ -56,6 +67,7 @@ def main():
                 else:
                     print(f"Player is immune to dmg for {active_player.player_dmg_cooldown} seconds!") 
             
+        # Bullet collision system
         for bullet in bullets:
             for asteroid in asteroids:
                 if bullet.collision(asteroid):
