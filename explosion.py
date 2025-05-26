@@ -19,8 +19,7 @@ class Explosin_anim(Animation):
         self.scale_explosion(radius)
         
         self.image = self.frames[self.current_frame]
-        self.rect = self.image.get_rect(center=(x, y))
-        
+        self.rect = self.image.get_rect(center=(x, y))     
 
     def update(self, dt):
         self.time_since_last_frame += dt

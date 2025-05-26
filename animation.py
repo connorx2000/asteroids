@@ -11,8 +11,6 @@ class Animation(pygame.sprite.Sprite):
         self.last_update_time = pygame.time.get_ticks()
         self.spritesheet = spritesheet
         self.num_frames = num_frames
-
-        
     
     def extract_frames(self, row, col):
         frames = []

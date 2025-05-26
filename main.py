@@ -1,10 +1,12 @@
 import pygame
+from pygame import mixer
 from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shooting import Shot
 from explosion import Explosin_anim
+from sounds import play_sound
 
 def main():
     pygame.init()
@@ -15,7 +17,6 @@ def main():
     
     dt = 0
     score = PLAYER_SCORE
-
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -67,6 +68,7 @@ def main():
             if asteroid.collision(active_player):
                 if active_player.health(1):
                     print(f"You have {active_player.player_health} remaining lives!")
+                    play_sound("damage", 0.5)
                     break
                 elif active_player.player_health == 0:
                     raise SystemExit (f"Game over, you scored {score}!")
@@ -81,6 +83,7 @@ def main():
                     bullet.kill()
                     asteroid.split()
                     score += 1
+                    play_sound("explosion", 0.25)
                     explosions.add(Explosin_anim(asteroid.position[0], asteroid.position[1], asteroid.radius))
                     
                 
