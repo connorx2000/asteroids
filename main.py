@@ -38,7 +38,7 @@ def main():
             
         screen.fill("black")
         text_surface = font.render(f"Score: {score}" , True, "WHITE")
-        screen.blit(text_surface, (SCREEN_WIDTH - 150, SCREEN_HEIGHT - 50))
+        screen.blit(text_surface, (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 50))
         
         dt = clock.tick(60) / 1000
         updatable.update(dt)
@@ -48,7 +48,13 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collision(active_player):
-                raise SystemExit ("Game over!")
+                if active_player.health(1):
+                    print(f"You have {active_player.player_health} remaining lives!")
+                    break
+                elif active_player.player_health == 0:
+                    raise SystemExit (f"Game over, you scored {score}!")
+                else:
+                    print(f"Player is immune to dmg for {active_player.player_dmg_cooldown} seconds!") 
             
         for bullet in bullets:
             for asteroid in asteroids:
