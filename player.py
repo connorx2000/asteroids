@@ -13,24 +13,40 @@ class Player(CircleShape):
         self.player_health = PLAYER_HEALTH
         self.player_dmg_cooldown = 0
 
-    def draw(self, screen):
-        if (int(self.player_dmg_cooldown * 10) % 2) == 0:
-            player_color = (255, 255, 255)
-            pygame.draw.polygon(screen, player_color, self.triangle(), 2)
-        else:
-            pass
+        #Ship Textures
+        self.frigate_ship = pygame.image.load("./images/frigate_ship.png")
+        self.active_ship = self.frigate_ship
         
 
-    def triangle(self):
-        forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
-        a = self.position + forward * self.radius
-        b = self.position - forward * self.radius - right
-        c = self.position - forward * self.radius + right
-        return [a, b, c]
+    def draw(self, screen):
+        if (int(self.player_dmg_cooldown * 10) % 2) == 0:
+            
+            width, height = self.active_ship.get_size()
+            rotated_image = pygame.transform.rotate(self.active_ship, -self.rotation -180)
+            rotated_rect = rotated_image.get_rect(center=(self.position[0], self.position[1]))
+            screen.blit(rotated_image, rotated_rect)
+
+            #Debug to show collision radius
+            player_color = (255, 255, 255)
+            pygame.draw.circle(screen, player_color, self.position, self.radius, 2)
+
+            #Original Triangle player
+            #player_color = (255, 255, 255)
+            #pygame.draw.polygon(screen, player_color, self.triangle(), 2)
+
+    #def triangle(self):
+    #    forward = pygame.Vector2(0, 1).rotate(self.rotation)
+    #    right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
+    #    a = self.position + forward * self.radius
+    #    b = self.position - forward * self.radius - right
+    #    c = self.position - forward * self.radius + right
+    #    return [a, b, c]
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+
+
+
 
     def update(self, dt):
         keys = pygame.key.get_pressed()

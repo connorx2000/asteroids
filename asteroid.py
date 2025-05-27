@@ -8,9 +8,17 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)
         self.velocity = velocity
 
+        #Textures
+        self.asteroid_texture = pygame.image.load("./images/asteroid.png")
+
     def draw(self, screen):
-        asteroid_color = (255, 255, 255)
-        pygame.draw.circle(screen, asteroid_color, self.position, self.radius, 2)
+        desired_size = self.radius * 2
+        scaled_asteroid = pygame.transform.scale(self.asteroid_texture, (desired_size, desired_size))
+        screen.blit(scaled_asteroid, (self.position[0] - desired_size / 2, self.position[1] - desired_size / 2))
+
+        #Debug to show collision radius
+        #asteroid_color = (255, 255, 255)
+        #pygame.draw.circle(screen, asteroid_color, self.position, self.radius * 0.5, 2)
 
     def update(self, dt):
         self.position += (self.velocity * dt)
@@ -30,5 +38,9 @@ class Asteroid(CircleShape):
             neg_rotate = self.velocity.rotate(-random_angle)
             Asteroid(self.position[0], self.position[1], new_radius, neg_rotate * 1.2)
             
-            
-            
+    def collision(self, other):
+        distance = self.position.distance_to(other.position)
+        if distance <= (self.radius * 0.5 + other.radius):
+            return True
+        else:
+            return False

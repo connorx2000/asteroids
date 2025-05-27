@@ -35,7 +35,11 @@ def main():
 
     #Textures
     heart_full = pygame.image.load("./images/heart_full.png")
-    heart_empty = pygame.image.load("./images/heart_empty.png")
+    heart_empty = pygame.image.load("./images/heart_empty.png") 
+
+    #Background
+    background = pygame.image.load("./images/background.png")
+    background_scaled = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
     #Fonts
     font = pygame.font.Font(None, 50)
@@ -52,6 +56,10 @@ def main():
         dt = clock.tick(60) / 1000
         updatable.update(dt)
 
+        #Draws Background
+        screen.blit(background_scaled, (0, 0))
+
+        #Draws Sprites
         for sprite in drawable:
             sprite.draw(screen)
 
