@@ -8,6 +8,13 @@ class Shot(CircleShape):
         self.velocity = velocity
         
     def draw(self, screen):
+        
+        
+        #check ship
+        #get image
+        #play animation when shot
+
+        #Original bullet
         asteroid_color = (255, 255, 255)
         pygame.draw.circle(screen, asteroid_color, self.position, self.radius, 2)
 

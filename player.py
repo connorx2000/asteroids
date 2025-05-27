@@ -3,6 +3,7 @@ from constants import *
 from circleshape import CircleShape
 from shooting import Shot
 from sounds import play_sound
+from engine import Engine_anim
 
 
 class Player(CircleShape):
@@ -14,34 +15,55 @@ class Player(CircleShape):
         self.player_dmg_cooldown = 0
 
         #Ship Textures
-        self.frigate_ship = pygame.image.load("./images/frigate_ship.png")
-        self.active_ship = self.frigate_ship
-        
+        self.battlecruiser_ship = pygame.image.load("./images/ships/battlecruiser_ship.png")
+        self.bomber_ship = pygame.image.load("./images/ships/bomber_ship.png")
+        self.dreadnought_ship = pygame.image.load("./images/ships/dreadnought_ship.png")
+        self.fighter_ship = pygame.image.load("./images/ships/fighter_ship.png")
+        self.frigate_ship = pygame.image.load("./images/ships/frigate_ship.png")
+        self.support_ship = pygame.image.load("./images/ships/support_ship.png")
+        self.torpedo_ship = pygame.image.load("./images/ships/torpedo_ship.png")
+
+        self.active_ship = "frigate"
+
+        self.ships = {
+            'battlecruiser': self.battlecruiser_ship,
+            'bomber': self.bomber_ship,
+            'dreadnought': self.dreadnought_ship,
+            'fighter': self.fighter_ship,
+            'frigate': self.frigate_ship,
+            'support': self.support_ship,
+            'torpedo': self.torpedo_ship
+        }
+        self.active_engine = Engine_anim(self.position[0], self.position[1], self.radius, self.active_ship)
 
     def draw(self, screen):
         if (int(self.player_dmg_cooldown * 10) % 2) == 0:
             
-            width, height = self.active_ship.get_size()
-            rotated_image = pygame.transform.rotate(self.active_ship, -self.rotation -180)
-            rotated_rect = rotated_image.get_rect(center=(self.position[0], self.position[1]))
-            screen.blit(rotated_image, rotated_rect)
+            active_ship = self.ships.get(self.active_ship)
+            active_engine = self.active_engine.frames[self.active_engine.current_frame]
+            width, height = active_ship.get_size()
+            #rotated_image = pygame.transform.rotate(active_ship, -self.rotation -180)
+            #rotated_rect = rotated_image.get_rect(center=(self.position[0], self.position[1]))
+
+            player_rotated = self.rotate_image(active_ship, -self.rotation -180)
+            player_rotated_rect = self.rotated_rect(player_rotated, (self.position[0], self.position[1]))
+            engine_rotated = self.rotate_image(active_engine, -self.rotation -180)
+            engine_rotated_rect = self.rotated_rect(engine_rotated, (self.position[0], self.position[1]))
+
+            screen.blit(engine_rotated, engine_rotated_rect)
+            screen.blit(player_rotated, player_rotated_rect)
+            
 
             #Debug to show collision radius
-            player_color = (255, 255, 255)
-            pygame.draw.circle(screen, player_color, self.position, self.radius, 2)
-
-            #Original Triangle player
             #player_color = (255, 255, 255)
-            #pygame.draw.polygon(screen, player_color, self.triangle(), 2)
-
-    #def triangle(self):
-    #    forward = pygame.Vector2(0, 1).rotate(self.rotation)
-    #    right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
-    #    a = self.position + forward * self.radius
-    #    b = self.position - forward * self.radius - right
-    #    c = self.position - forward * self.radius + right
-    #    return [a, b, c]
+            #pygame.draw.circle(screen, player_color, self.position, self.radius, 2)
     
+    def rotate_image(self, image_to_rotate, rotation):
+        return pygame.transform.rotate(image_to_rotate, rotation)
+
+    def rotated_rect(self, rotated_image, image_center):
+        return rotated_image.get_rect(center=image_center)
+
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
 

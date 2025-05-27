@@ -7,6 +7,7 @@ from asteroidfield import AsteroidField
 from shooting import Shot
 from explosion import Explosin_anim
 from sounds import play_sound
+from engine import Engine_anim
 
 def main():
     pygame.init()
@@ -25,6 +26,7 @@ def main():
 
     #Groups
     Player.containers = (updatable, drawable)
+    Engine_anim.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Explosin_anim.containers = (explosions, updatable, drawable)

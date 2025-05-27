@@ -32,9 +32,6 @@ class Explosin_anim(Animation):
                 #print("Explosion deleted!")
                 self.kill()
 
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
-
     def scale_explosion(self, radius):
         desired_size = radius * 2
         scaled_frames = []

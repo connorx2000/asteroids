@@ -23,3 +23,6 @@ class Animation(pygame.sprite.Sprite):
             frame = self.spritesheet.subsurface(pygame.Rect(col_index * frame_width, row_index * frame_height, frame_width, frame_height))
             frames.append(frame)
         return frames
+    
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
