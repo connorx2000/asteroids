@@ -82,7 +82,7 @@ def main():
             if asteroid.collision(active_player):
                 if active_player.health(1):
                     print(f"You have {active_player.player_health} remaining lives!")
-                    play_sound("damage", 1, 0.5)
+                    play_sound("damage", 0, 0.5)
                     break
                 elif active_player.player_health == 0:
                     raise SystemExit (f"Game over, you scored {score}!")
@@ -97,7 +97,7 @@ def main():
                     bullet.kill()
                     asteroid.split()
                     score += 1
-                    play_sound("explosion", 1, 0.25)
+                    play_sound("explosion", 0, 0.25)
                     explosions.add(Explosin_anim(asteroid.position[0], asteroid.position[1], asteroid.radius))
                     
                 
