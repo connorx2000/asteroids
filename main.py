@@ -4,11 +4,11 @@ from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-from shooting import Shot
 from explosion import Explosin_anim
 from sounds import play_sound
 from sounds import play_music
 from engine import Engine_anim
+from projectile import Projectile
 
 def main():
     pygame.init()
@@ -22,16 +22,16 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
-    bullets = pygame.sprite.Group()
+    projectile = pygame.sprite.Group()
     explosions = pygame.sprite.Group()
 
     #Groups
     Player.containers = (updatable, drawable)
     Engine_anim.containers = (updatable, drawable)
+    Projectile.containers = (projectile, updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Explosin_anim.containers = (explosions, updatable, drawable)
-    Shot.containers = (bullets, updatable, drawable)
 
     active_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT /2)
     active_astroid_field = AsteroidField()
@@ -91,7 +91,7 @@ def main():
                     pass
 
         # Bullet collision system
-        for bullet in bullets:
+        for bullet in projectile:
             for asteroid in asteroids:
                 if bullet.collision(asteroid):
                     bullet.kill()

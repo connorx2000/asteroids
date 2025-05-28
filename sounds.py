@@ -38,7 +38,7 @@ music = {
     1: "./sounds/music/chiptune.wav",
     2: "./sounds/music/funky_DnB.wav",
     3: "./sounds/music/gaming_arcade.wav",
-    4: "./sounds/music/polysynth_groove"
+    4: "./sounds/music/polysynth_groove.wav"
 }
 
 def play_sound(name, sound_loop, volume=1.0):
@@ -51,7 +51,7 @@ def play_sound(name, sound_loop, volume=1.0):
 def play_music(volume=1.0):
     random_number = random.randint(1, len(music))
     if sound_enabled:
-        loaded_music = pygame.mixer.music.load(music.get(random_number))
+        pygame.mixer.music.load(music.get(random_number))
         print(f"Playing music track: {music.get(random_number)}")
         pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(loops=-1)

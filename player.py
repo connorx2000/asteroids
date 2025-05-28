@@ -1,9 +1,9 @@
 import pygame
 from constants import *
 from circleshape import CircleShape
-from shooting import Shot
 from sounds import play_sound
 from engine import Engine_anim
+from projectile import Projectile
 
 
 class Player(CircleShape):
@@ -95,7 +95,7 @@ class Player(CircleShape):
 
     def shoot(self, dt):
         forward = (pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED)
-        Shot(self.position[0], self.position[1], forward)
+        Projectile(self.position[0], self.position[1], forward, self.rotation)
         play_sound("shooting", 0, 0.5)
         self.shot_timer = PLAYER_SHOOT_COOLDOWN
 

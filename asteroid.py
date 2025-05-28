@@ -18,7 +18,7 @@ class Asteroid(CircleShape):
 
         #Debug to show collision radius
         #asteroid_color = (255, 255, 255)
-        #pygame.draw.circle(screen, asteroid_color, self.position, self.radius * 0.5, 2)
+        #pygame.draw.circle(screen, asteroid_color, self.position, self.radius * 0.4, 2)
 
     def update(self, dt):
         self.position += (self.velocity * dt)
@@ -40,7 +40,7 @@ class Asteroid(CircleShape):
             
     def collision(self, other):
         distance = self.position.distance_to(other.position)
-        if distance <= (self.radius * 0.5 + other.radius):
+        if distance <= (self.radius * 0.4 + other.radius):
             return True
         else:
             return False
