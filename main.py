@@ -56,14 +56,17 @@ def main():
                 return
             
         screen.fill("black")
+
+        #Draws Background
+        screen.blit(background_scaled, (0, 0))
+
+        #Draws Score
         text_surface = font.render(f"Score: {score}" , True, "WHITE")
         screen.blit(text_surface, (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 50))
         
         dt = clock.tick(60) / 1000
         updatable.update(dt)
 
-        #Draws Background
-        screen.blit(background_scaled, (0, 0))
 
         #Draws Sprites
         for sprite in drawable:
