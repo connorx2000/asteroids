@@ -48,7 +48,7 @@ def play_sound(name, sound_loop, volume=1.0):
         sound.set_volume(volume)
         sound.play(loops=sound_loop)
     
-def play_music(volume=1.0):
+def play_music(volume=0.5):
     random_number = random.randint(1, len(music))
     if sound_enabled:
         pygame.mixer.music.load(music.get(random_number))
