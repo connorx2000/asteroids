@@ -35,6 +35,7 @@ class Player(CircleShape):
             'torpedo': self.torpedo_ship
         }
         self.active_engine = Engine_anim(self.position[0], self.position[1], self.radius, self.active_ship)
+        play_sound("engine", -1, 0.1)
 
     def draw(self, screen):
         if (int(self.player_dmg_cooldown * 10) % 2) == 0:
@@ -95,7 +96,7 @@ class Player(CircleShape):
     def shoot(self, dt):
         forward = (pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED)
         Shot(self.position[0], self.position[1], forward)
-        play_sound("shooting", 0.5)
+        play_sound("shooting", 1, 0.5)
         self.shot_timer = PLAYER_SHOOT_COOLDOWN
 
     def health(self, dmg):
